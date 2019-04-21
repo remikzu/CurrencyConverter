@@ -1,6 +1,6 @@
 package pl.sda.CurrencyConverter_RZ.service;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,9 @@ import pl.sda.CurrencyConverter_RZ.model.Currencies;
 import pl.sda.CurrencyConverter_RZ.model.Rates;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.net.URL;
 
 /**
@@ -17,13 +20,140 @@ import java.net.URL;
 @NoArgsConstructor
 public class CurrencyService {
 
+    private static Currencies currencyValue = new Currencies();
+
     private final String finalHistoricalURLAddress = "https://api.exchangeratesapi.io/";
-    public Currencies getCurrencyValue(String date, String currencyShortcut) throws IOException {
+
+    private Currencies readJSON(String date, String currencyShortcut) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         URL url = new URL(finalHistoricalURLAddress + date + "?base=" + currencyShortcut);
         return mapper.readValue(url, Currencies.class);
     }
 
+    public BigDecimal convertCurrencyValue(double amount, String fromCurrency, String toCurrency, String date, int scale) {
+
+        CurrencyService currencyService = new CurrencyService();
+        try {
+            currencyValue = currencyService.readJSON(date, fromCurrency);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BigDecimal exchangeRatio = BigDecimal.valueOf(getCurrencyValue(toCurrency));
+        BigDecimal value = BigDecimal.valueOf(amount).multiply(exchangeRatio);
+        return value.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
+    }
+    public void showResult(double amount, String fromCurrency, String toCurrency, String date, int scale) {
+        BigDecimal value = convertCurrencyValue(amount, fromCurrency, toCurrency, date, scale);
+        System.out.println("Konwersja na dzień " + currencyValue.getDate());
+        System.out.println(amount + " " + fromCurrency + " to " + value + " " + toCurrency);
+    }
+
+    public Double getCurrencyValue(String currency) {
+
+        switch (currency) {
+            case "BGN":
+                return currencyValue.getRates().getBGN();
+
+            case "NZD":
+                return currencyValue.getRates().getNZD();
+
+            case "ILS":
+                return currencyValue.getRates().getILS();
+
+            case "RUB":
+                return currencyValue.getRates().getRUB();
+
+            case "CAD":
+                return currencyValue.getRates().getCAD();
+
+            case "USD":
+                return currencyValue.getRates().getUSD();
+
+            case "PHP":
+                return currencyValue.getRates().getPHP();
+
+            case "CHF":
+                return currencyValue.getRates().getCHF();
+
+            case "AUD":
+                return currencyValue.getRates().getAUD();
+
+            case "JPY":
+                return currencyValue.getRates().getJPY();
+
+            case "TRY":
+                return currencyValue.getRates().getTRY();
+
+            case "HKD":
+                return currencyValue.getRates().getHKD();
+
+            case "MYR":
+                return currencyValue.getRates().getMYR();
+
+            case "HRK":
+                return currencyValue.getRates().getHRK();
+
+            case "CZK":
+                return currencyValue.getRates().getCZK();
+
+            case "IDR":
+                return currencyValue.getRates().getIDR();
+
+            case "DKK":
+                return currencyValue.getRates().getDKK();
+
+            case "NOK":
+                return currencyValue.getRates().getNOK();
+
+            case "HUF":
+                return currencyValue.getRates().getHUF();
+
+            case "GBP":
+                return currencyValue.getRates().getGBP();
+
+            case "MXN":
+                return currencyValue.getRates().getMXN();
+
+            case "THB":
+                return currencyValue.getRates().getTHB();
+
+            case "ISK":
+                return currencyValue.getRates().getISK();
+
+            case "ZAR":
+                return currencyValue.getRates().getZAR();
+
+            case "BRL":
+                return currencyValue.getRates().getBRL();
+
+            case "SGD":
+                return currencyValue.getRates().getSGD();
+
+            case "PLN":
+                return currencyValue.getRates().getPLN();
+
+            case "INR":
+                return currencyValue.getRates().getINR();
+
+            case "KRW":
+                return currencyValue.getRates().getKRW();
+
+            case "RON":
+                return currencyValue.getRates().getRON();
+
+            case "CNY":
+                return currencyValue.getRates().getCNY();
+
+            case "SEK":
+                return currencyValue.getRates().getSEK();
+
+            case "EUR":
+                return currencyValue.getRates().getEUR();
+
+            default:
+                return null;
+        }
+    }
 
 
 }
