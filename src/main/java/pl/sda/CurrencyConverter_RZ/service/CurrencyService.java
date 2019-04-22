@@ -12,6 +12,14 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Remigiusz Zudzin
@@ -32,23 +40,28 @@ public class CurrencyService {
 
     public BigDecimal convertCurrencyValue(double amount, String fromCurrency, String toCurrency, String date, int scale) {
 
-        CurrencyService currencyService = new CurrencyService();
-        try {
-            currencyValue = currencyService.readJSON(date, fromCurrency);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isCurrencyShortcutCorrect(fromCurrency) && isCurrencyShortcutCorrect(toCurrency)) {
+            CurrencyService currencyService = new CurrencyService();
+            try {
+                currencyValue = currencyService.readJSON(date, fromCurrency);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BigDecimal exchangeRatio = BigDecimal.valueOf(getCurrencyValue(toCurrency));
+            BigDecimal value = BigDecimal.valueOf(amount).multiply(exchangeRatio);
+            return value.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
+        } else {
+            return BigDecimal.ZERO;
         }
-        BigDecimal exchangeRatio = BigDecimal.valueOf(getCurrencyValue(toCurrency));
-        BigDecimal value = BigDecimal.valueOf(amount).multiply(exchangeRatio);
-        return value.setScale(scale, BigDecimal.ROUND_HALF_DOWN);
     }
+
     public void showResult(double amount, String fromCurrency, String toCurrency, String date, int scale) {
         BigDecimal value = convertCurrencyValue(amount, fromCurrency, toCurrency, date, scale);
         System.out.println("Konwersja na dzień " + currencyValue.getDate());
         System.out.println(amount + " " + fromCurrency + " to " + value + " " + toCurrency);
     }
 
-    public Double getCurrencyValue(String currency) {
+    private Double getCurrencyValue(String currency) {
 
         switch (currency) {
             case "BGN":
@@ -153,6 +166,51 @@ public class CurrencyService {
             default:
                 return null;
         }
+    }
+
+    /**
+     *
+     * @param currency - shows the shortcut of the currency in argument
+     * @return true if the shortcut is correct, otherwise @return false
+     */
+    boolean isCurrencyShortcutValid(String currency) {
+        return currency.equals("BGN") || currency.equals("NZD") ||
+                currency.equals("ILS") || currency.equals("RUB") ||
+                currency.equals("CAD") || currency.equals("USD") ||
+                currency.equals("PHP") || currency.equals("CHF") ||
+                currency.equals("AUD") || currency.equals("JPY") ||
+                currency.equals("TRY") || currency.equals("HKD") ||
+                currency.equals("MYR") || currency.equals("HRK") ||
+                currency.equals("CZK") || currency.equals("IDR") ||
+                currency.equals("DKK") || currency.equals("NOK") ||
+                currency.equals("HUF") || currency.equals("GBP") ||
+                currency.equals("MXN") || currency.equals("THB") ||
+                currency.equals("ISK") || currency.equals("ZAR") ||
+                currency.equals("BRL") || currency.equals("SGD") ||
+                currency.equals("PLN") || currency.equals("INR") ||
+                currency.equals("KRW") || currency.equals("RON") ||
+                currency.equals("CNY") || currency.equals("SEK") ||
+                currency.equals("EUR");
+    }
+
+    boolean isCurrencyShortcutLengthValid(String currency) {
+        return currency.length() == 3;
+    }
+
+    boolean isCurrencyShortcutCorrect(String currency) {
+        return isCurrencyShortcutValid(currency) && isCurrencyShortcutLengthValid(currency);
+    }
+
+    boolean isAmountValuePositive(double amount) {
+        return amount > 0;
+    }
+
+    boolean isDateFormatCorrect(String date) {
+        LocalDate ld = null;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        ld = LocalDate.parse(date, formatter);
+        String result = ld.format(formatter);
+        return result.equals(date);
     }
 
 
