@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.math.BigDecimal;
-import java.time.format.DateTimeParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -108,6 +107,14 @@ class CurrencyServiceTest {
     void isDateFormatNotCorrect(String date) {
         assertThat(CurrencyService
                 .isDateFormatCorrect(date))
+                .isEqualTo(false);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"100", "200", "1234.12", "0.001"})
+    void isAmountValueContainingCommaInsteadOfDot (String amount) {
+        assertThat(CurrencyService
+                .isAmountValueContainingCommaInsteadOfDot(amount))
                 .isEqualTo(false);
     }
 }

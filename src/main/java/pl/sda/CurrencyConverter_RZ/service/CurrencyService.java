@@ -1,25 +1,16 @@
 package pl.sda.CurrencyConverter_RZ.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.sda.CurrencyConverter_RZ.fxControllers.ConverterController;
 import pl.sda.CurrencyConverter_RZ.model.Currencies;
-import pl.sda.CurrencyConverter_RZ.model.Rates;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -30,6 +21,10 @@ import java.util.Locale;
 public class CurrencyService {
 
     private static Currencies currencyValue = new Currencies();
+
+    public static Currencies getCurrencyValue() {
+        return currencyValue;
+    }
 
     private final String finalHistoricalURLAddress = "https://api.exchangeratesapi.io/";
 
@@ -197,15 +192,35 @@ public class CurrencyService {
         return currency.length() == 3;
     }
 
-    static boolean isCurrencyShortcutCorrect(String currency) {
+    public static boolean isCurrencyShortcutCorrect(String currency) {
         return isCurrencyShortcutValid(currency) && isCurrencyShortcutLengthValid(currency);
     }
 
-    boolean isAmountValuePositive(double amount) {
+    public static boolean isAmountValuePositive(double amount) {
         return amount > 0;
     }
 
-    static boolean isDateFormatCorrect(String date) {
+    public static boolean isAmountValueBetweenMinAndMax(double amount) {
+        return amount < Double.MAX_VALUE && amount > Double.MIN_VALUE;
+    }
+
+    public static boolean isAmountValueContainingCommaInsteadOfDot(String amount) {
+        String value = String.valueOf(amount);
+        String[] valueArray = value.split("");
+
+        for (int i = 0; i < valueArray.length; i++) {
+            if (valueArray[i].equals(",")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static double convertingCommaToDotOfValue(String amount) {
+            return Double.valueOf(String.valueOf(amount).replace(",", "."));
+    }
+
+    public static boolean isDateFormatCorrect(String date) {
         try {
             LocalDate ld = null;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);

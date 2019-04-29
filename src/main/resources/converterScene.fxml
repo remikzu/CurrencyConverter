@@ -22,11 +22,6 @@
                     <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#setCloseMenuItem" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
