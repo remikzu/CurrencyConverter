@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.sda.CurrencyConverter_RZ.fxControllers.ConverterController;
 import pl.sda.CurrencyConverter_RZ.model.Currencies;
 import pl.sda.CurrencyConverter_RZ.model.Rates;
 
@@ -32,14 +33,13 @@ public class CurrencyService {
 
     private final String finalHistoricalURLAddress = "https://api.exchangeratesapi.io/";
 
-    private Currencies readJSON(String date, String currencyShortcut) throws IOException {
+    public Currencies readJSON(String date, String currencyShortcut) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         URL url = new URL(finalHistoricalURLAddress + date + "?base=" + currencyShortcut);
         return mapper.readValue(url, Currencies.class);
     }
 
-    public BigDecimal convertCurrencyValue(double amount, String fromCurrency, String toCurrency, String date, int scale) {
-
+    public static BigDecimal convertCurrencyValue(double amount, String fromCurrency, String toCurrency, String date, int scale) {
         if (isCurrencyShortcutCorrect(fromCurrency) && isCurrencyShortcutCorrect(toCurrency)) {
             CurrencyService currencyService = new CurrencyService();
             try {
@@ -61,7 +61,7 @@ public class CurrencyService {
         System.out.println(amount + " " + fromCurrency + " to " + value + " " + toCurrency);
     }
 
-    private Double getCurrencyValue(String currency) {
+    private static Double getCurrencyValue(String currency) {
 
         switch (currency) {
             case "BGN":
@@ -173,7 +173,7 @@ public class CurrencyService {
      * @param currency - shows the shortcut of the currency in argument
      * @return true if the shortcut is correct, otherwise @return false
      */
-    boolean isCurrencyShortcutValid(String currency) {
+    static boolean isCurrencyShortcutValid(String currency) {
         return currency.equals("BGN") || currency.equals("NZD") ||
                 currency.equals("ILS") || currency.equals("RUB") ||
                 currency.equals("CAD") || currency.equals("USD") ||
@@ -193,11 +193,11 @@ public class CurrencyService {
                 currency.equals("EUR");
     }
 
-    boolean isCurrencyShortcutLengthValid(String currency) {
+    static boolean isCurrencyShortcutLengthValid(String currency) {
         return currency.length() == 3;
     }
 
-    boolean isCurrencyShortcutCorrect(String currency) {
+    static boolean isCurrencyShortcutCorrect(String currency) {
         return isCurrencyShortcutValid(currency) && isCurrencyShortcutLengthValid(currency);
     }
 
@@ -205,12 +205,16 @@ public class CurrencyService {
         return amount > 0;
     }
 
-    boolean isDateFormatCorrect(String date) {
-        LocalDate ld = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
-        ld = LocalDate.parse(date, formatter);
-        String result = ld.format(formatter);
-        return result.equals(date);
+    static boolean isDateFormatCorrect(String date) {
+        try {
+            LocalDate ld = null;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+            ld = LocalDate.parse(date, formatter);
+            String result = ld.format(formatter);
+            return result.equals(date);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
 
