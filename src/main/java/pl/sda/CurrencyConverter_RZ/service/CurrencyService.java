@@ -164,7 +164,6 @@ public class CurrencyService {
     }
 
     /**
-     *
      * @param currency - shows the shortcut of the currency in argument
      * @return true if the shortcut is correct, otherwise @return false
      */
@@ -217,7 +216,7 @@ public class CurrencyService {
     }
 
     public static double convertingCommaToDotOfValue(String amount) {
-            return Double.valueOf(String.valueOf(amount).replace(",", "."));
+        return Double.valueOf(String.valueOf(amount).replace(",", "."));
     }
 
     public static boolean isDateFormatCorrect(String date) {
@@ -232,5 +231,12 @@ public class CurrencyService {
         }
     }
 
-
+    public static boolean isNumeric(String amount) {
+        try {
+            Double.parseDouble(amount);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

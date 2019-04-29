@@ -92,8 +92,8 @@ public class ConverterController implements Initializable {
         if (CurrencyService
                 .isAmountValueContainingCommaInsteadOfDot((amountTextField.getText()))) {
             amountTextField.setText(String
-                    .valueOf(CurrencyService
-                            .convertingCommaToDotOfValue(amountTextField.getText())));
+                                        .valueOf(CurrencyService
+                                                    .convertingCommaToDotOfValue(amountTextField.getText())));
         }
 
         if (!CurrencyService
@@ -104,6 +104,12 @@ public class ConverterController implements Initializable {
             alert.setTitle("Wrong shortcut!");
             alert.setHeaderText("I have no idea how you've done it, but the shortcut is invalid, fix it!");
             alert.showAndWait();
+        } else if (!CurrencyService.isNumeric(amountTextField.getText())) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Wrong value!");
+            alert.setHeaderText("The amount you entered is not a numeric value - fix it!");
+            alert.showAndWait();
+            amountTextField.setText("100");
         } else if (!CurrencyService.isDateFormatCorrect(dateTextField.getText())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Wrong date!");
@@ -145,6 +151,15 @@ public class ConverterController implements Initializable {
     }
 
     public void setAboutMenuItem() {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About Currency Converter v1.0 by Remigiusz Zudzin");
+        alert.setHeaderText("Welcome to the Currency Converter v1.0!" + "\n" +
+                "This application converts the value of the chosen currency into the choosen one." + "\n" +
+                "You can choose the currency shortcut from the both lists" + "\n" +
+                "The amount should be a positive value between 4.9^-324 and 1.7*10^308" + "\n" +
+                "Date format is YEAR-MONTH-DAY in this exact format: yyyy-MM-dd" + "\n" +
+                "For more information contact me by the email:" + "\n" +
+                "remik.zudzin@gmail.com");
+        alert.showAndWait();
     }
 }

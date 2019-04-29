@@ -22,14 +22,9 @@
                     <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#setCloseMenuItem" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem fx:id="deleteMenuItem" mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem fx:id="aboutMenuItem" mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="aboutMenuItem" onAction="#setAboutMenuItem" mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
               </menus>
@@ -38,7 +33,7 @@
             <Label layoutX="264.0" layoutY="44.0" text="To" />
             <Label layoutX="171.0" layoutY="108.0" text="Date" />
             <Label layoutX="149.0" layoutY="167.0" text="Enter amount" />
-            <Label fx:id="resultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="271.0" prefHeight="77.0" prefWidth="338.0" text="Result" wrapText="true">
+            <Label fx:id="resultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="271.0" prefHeight="77.0" prefWidth="338.0" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font></Label>
