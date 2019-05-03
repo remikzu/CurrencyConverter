@@ -33,7 +33,7 @@ class CurrencyServiceTest {
             "CHF", "AUD", "JPY", "TRY", "HKD", "MYR", "HRK",
             "CZK", "IDR", "DKK", "NOK", "HUF", "GBP","MXN",
             "THB", "ISK", "ZAR", "BRL", "SGD", "PLN","INR",
-            "KRW", "RON", "CNY", "SEK", "EUR"})
+            "KRW", "RON", "CNY", "SEK", "EUR", "LTL", "LVL", "EEK"})
     @DisplayName("Returns true if shortcut is correct")
     void IfCurrencyShortcutIsCorrect(String currencyShortcut) {
         assertThat(CurrencyService
@@ -55,7 +55,7 @@ class CurrencyServiceTest {
             "CHF", "AUD", "JPY", "TRY", "HKD", "MYR", "HRK",
             "CZK", "IDR", "DKK", "NOK", "HUF", "GBP","MXN",
             "THB", "ISK", "ZAR", "BRL", "SGD", "PLN","INR",
-            "KRW", "RON", "CNY", "SEK", "EUR"})
+            "KRW", "RON", "CNY", "SEK", "EUR", "LTL", "LVL", "EEK"})
     @DisplayName("Returns true if shortcut length equals 3")
     void IfCurrencyShortcutLengthIsCorrect(String currencyShortcut) {
         assertThat(CurrencyService
@@ -77,7 +77,7 @@ class CurrencyServiceTest {
             "CHF", "AUD", "JPY", "TRY", "HKD", "MYR", "HRK",
             "CZK", "IDR", "DKK", "NOK", "HUF", "GBP","MXN",
             "THB", "ISK", "ZAR", "BRL", "SGD", "PLN","INR",
-            "KRW", "RON", "CNY", "SEK", "EUR"})
+            "KRW", "RON", "CNY", "SEK", "EUR", "LTL", "LVL", "EEK"})
     @DisplayName("Returns true if shortcut length equals 3 and the shortcut is correct")
     void IsCurrencyShortcutCorrect(String currencyShortcut) {
         assertThat(CurrencyService

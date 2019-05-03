@@ -113,5 +113,14 @@ public class Rates {
     @JsonProperty("EUR")
     private Double EUR;
 
+    @JsonProperty("LVL")
+    private Double LVL;
+
+    @JsonProperty("LTL")
+    private Double LTL;
+
+    @JsonProperty("EEK")
+    private Double EEK;
+
 
 }

@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import pl.sda.CurrencyConverter_RZ.model.Currencies;
 import pl.sda.CurrencyConverter_RZ.service.CurrencyService;
 
 import java.math.BigDecimal;
@@ -64,13 +63,13 @@ public class ConverterController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         fromComboBox.getItems().addAll("AUD", "BGN", "BRL", "CAD", "CHF", "CNY",
                 "CZK", "DKK", "EUR", "GBP", "HKD", "HRK", "HUF",
-                "IDR", "ILS", "INR", "ISK", "JPY", "KRW", "MXN",
+                "IDR", "ILS", "INR", "ISK", "JPY", "KRW", "LTL", "LVL", "MXN",
                 "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB",
                 "SEK", "SGD", "THB", "TRY", "USD", "ZAR");
         fromComboBox.setValue("PLN");
         toComboBox.getItems().addAll("AUD", "BGN", "BRL", "CAD", "CHF", "CNY",
                 "CZK", "DKK", "EUR", "GBP", "HKD", "HRK", "HUF",
-                "IDR", "ILS", "INR", "ISK", "JPY", "KRW", "MXN",
+                "IDR", "ILS", "INR", "ISK", "JPY", "KRW", "LTL", "LVL", "MXN",
                 "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB",
                 "SEK", "SGD", "THB", "TRY", "USD", "ZAR");
         toComboBox.setValue("EUR");

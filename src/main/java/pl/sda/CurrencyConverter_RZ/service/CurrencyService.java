@@ -50,11 +50,11 @@ public class CurrencyService {
         }
     }
 
-    public void showResult(double amount, String fromCurrency, String toCurrency, String date, int scale) {
-        BigDecimal value = convertCurrencyValue(amount, fromCurrency, toCurrency, date, scale);
-        System.out.println("Konwersja na dzień " + currencyValue.getDate());
-        System.out.println(amount + " " + fromCurrency + " to " + value + " " + toCurrency);
-    }
+//    public void showResult(double amount, String fromCurrency, String toCurrency, String date, int scale) {
+//        BigDecimal value = convertCurrencyValue(amount, fromCurrency, toCurrency, date, scale);
+//        System.out.println("Konwersja na dzień " + currencyValue.getDate());
+//        System.out.println(amount + " " + fromCurrency + " to " + value + " " + toCurrency);
+//    }
 
     private static Double getCurrencyValue(String currency) {
 
@@ -158,6 +158,15 @@ public class CurrencyService {
             case "EUR":
                 return currencyValue.getRates().getEUR();
 
+            case "LTL":
+                return currencyValue.getRates().getLTL();
+
+            case "LVL":
+                return currencyValue.getRates().getLVL();
+
+            case "EEK":
+                return currencyValue.getRates().getEEK();
+
             default:
                 return null;
         }
@@ -184,7 +193,8 @@ public class CurrencyService {
                 currency.equals("PLN") || currency.equals("INR") ||
                 currency.equals("KRW") || currency.equals("RON") ||
                 currency.equals("CNY") || currency.equals("SEK") ||
-                currency.equals("EUR");
+                currency.equals("EUR") || currency.equals("LVL") ||
+                currency.equals("LTL") || currency.equals("EEK");
     }
 
     static boolean isCurrencyShortcutLengthValid(String currency) {
